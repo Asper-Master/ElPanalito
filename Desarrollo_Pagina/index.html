@@ -1,0 +1,312 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>El Panalito</title>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Fredoka', sans-serif;
+      background: linear-gradient(135deg, #fffde7, #fff9c4);
+      overflow-x: hidden;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background: linear-gradient(90deg, #ffeb3b, #fff176);
+      border-bottom: 3px solid #f44336;
+      position: relative;
+      z-index: 1000;
+      animation: slideDown 1s ease;
+    }
+
+    @keyframes slideDown {
+      from {
+        transform: translateY(-100%);
+        opacity: 0;
+      }
+      to {
+        transform: translateY(0);
+        opacity: 1;
+      }
+    }
+
+    .logo h1 {
+      font-size: 2rem;
+      color: #f44336;
+      font-weight: bold;
+      text-shadow: 1px 1px 2px rgba(0,0,0,0.2);
+    }
+
+    nav {
+      display: flex;
+      gap: 1.5rem;
+    }
+
+    nav a {
+      text-decoration: none;
+      font-weight: bold;
+      color: #2196f3;
+      position: relative;
+      padding: 5px 0;
+      transition: all 0.3s ease;
+    }
+
+    nav a::after {
+      content: '';
+      position: absolute;
+      left: 0;
+      bottom: 0;
+      width: 0%;
+      height: 3px;
+      background-color: #2196f3;
+      transition: width 0.3s ease-in-out;
+    }
+
+    nav a:hover::after {
+      width: 100%;
+    }
+
+    nav a:hover {
+      color: #1565c0;
+    }
+
+    .menu-icon {
+      display: none;
+      font-size: 2rem;
+      cursor: pointer;
+      color: #f44336;
+    }
+
+    #menu-toggle {
+      display: none;
+    }
+
+    @media (max-width: 768px) {
+      nav {
+        position: absolute;
+        top: 100%;
+        left: 0;
+        right: 0;
+        background-color: #ffeb3b;
+        flex-direction: column;
+        align-items: center;
+        gap: 1rem;
+        padding: 1rem 0;
+        transform: translateY(-200%);
+        transition: transform 0.4s ease-in-out;
+      }
+
+      #menu-toggle:checked + .menu-icon + nav {
+        transform: translateY(0);
+      }
+
+      .menu-icon {
+        display: block;
+      }
+    }
+
+    main {
+      text-align: center;
+      padding: 80px 20px 100px;
+      background: linear-gradient(rgba(255,255,255,0.85), rgba(255,255,255,0.85)), url('https://cdn.pixabay.com/photo/2016/02/18/22/16/candy-1209794_1280.jpg');
+      background-size: cover;
+      background-position: center;
+      animation: fadeIn 1.2s ease-in-out;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px);
+      }
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+
+    main h1 {
+      font-size: 4rem;
+      color: #f44336;
+      font-weight: 700;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    main h2 {
+      font-size: 2rem;
+      color: #2196f3;
+      margin-bottom: 30px;
+      font-weight: 600;
+      text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+    }
+
+    .btn-catalogo {
+      background: linear-gradient(to right, #2196f3, #1e88e5);
+      color: #fff;
+      padding: 16px 48px;
+      border: none;
+      border-radius: 50px;
+      font-size: 1.1rem;
+      font-weight: bold;
+      cursor: pointer;
+      box-shadow: 0 6px 20px rgba(33, 150, 243, 0.4);
+      transition: all 0.3s ease;
+      animation: bounce 2s infinite ease-in-out;
+    }
+
+    @keyframes bounce {
+      0%, 100% {
+        transform: translateY(0);
+      }
+      50% {
+        transform: translateY(-5px);
+      }
+    }
+
+    .btn-catalogo:hover {
+      transform: scale(1.05);
+      box-shadow: 0 10px 25px rgba(21, 101, 192, 0.5);
+    }
+
+    .cards {
+      display: flex;
+      justify-content: center;
+      gap: 2rem;
+      flex-wrap: wrap;
+      padding: 50px 20px;
+    }
+
+    .card {
+      background-color: #fff;
+      border-radius: 20px;
+      padding: 20px;
+      width: 250px;
+      box-shadow: 0 6px 20px rgba(0,0,0,0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-10px);
+      box-shadow: 0 10px 30px rgba(0,0,0,0.15);
+    }
+
+    .card h3 {
+      color: #f44336;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      color: #444;
+      font-size: 0.95rem;
+    }
+
+    footer {
+      background-color: #fff9c4;
+      text-align: center;
+      padding: 30px;
+      font-size: 0.95rem;
+      color: #555;
+      border-top: 2px solid #eee;
+      box-shadow: inset 0 4px 10px rgba(0,0,0,0.05);
+    }
+    #particles-js {
+  position: fixed;
+  width: 100%;
+  height: 100%;
+  z-index: -1;
+  top: 0;
+  left: 0;
+}
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">
+      <h1>🍭 El Panalito</h1>
+    </div>
+    <input type="checkbox" id="menu-toggle">
+    <label for="menu-toggle" class="menu-icon">&#9776;</label>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="catalago.html">Catálogo</a>
+      <a href="sucursales.html">Sucursales</a>
+      <a href="contacto.html">Contáctanos</a>
+    </nav>
+  </header>
+
+  <main>
+    <h1>El Panalito</h1>
+    <h2>DULCES Y TODO PARA TU FIESTA Y MÁS</h2>
+    <a href="catalago.html" class="btn-catalogo">VER CATALOGO</a>
+  </main>
+
+  <section class="cards">
+    <div class="card">
+      <h3>🎉 Piñatas</h3>
+      <p>Diseños únicos y coloridos para tus fiestas.</p>
+    </div>
+    <div class="card">
+      <h3>🍬 Dulces</h3>
+      <p>Gran variedad de golosinas nacionales e importadas.</p>
+    </div>
+    <div class="card">
+      <h3>🎁 Sorpresitas</h3>
+      <p>Detalles para tus invitados con mucho cariño.</p>
+    </div>
+  </section>
+
+  <footer>
+    &copy; 2025 El Panalito. Todos los derechos reservados. <br>
+    Sitio desarrollado por el equipo: Innovation Winth
+  </footer>
+  <div id="particles-js"></div>
+<script src="https://cdn.jsdelivr.net/npm/particles.js@2.0.0/particles.min.js"></script>
+<script>
+  particlesJS("particles-js", {
+    "particles": {
+      "number": {
+        "value": 40
+      },
+      "color": {
+        "value": ["#f44336", "#ffeb3b", "#2196f3"]
+      },
+      "shape": {
+        "type": "circle"
+      },
+      "opacity": {
+        "value": 0.6
+      },
+      "size": {
+        "value": 6,
+        "random": true
+      },
+      "move": {
+        "enable": true,
+        "speed": 2
+      }
+    },
+    "interactivity": {
+      "events": {
+        "onhover": {
+          "enable": true,
+          "mode": "repulse"
+        }
+      }
+    },
+    "retina_detect": true
+  });
+</script>
+</body>
+</html>

@@ -1,0 +1,982 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo | El Panalito</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+  
+    body {
+      font-family: 'Fredoka', sans-serif;
+      background: linear-gradient(to right, #fffde7, #fff9c4);
+      overflow-x: hidden;
+      color: #333;
+    }
+  
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: #ffeb3b;
+      border-bottom: 4px solid #f44336;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+    }
+  
+    .logo {
+      font-size: 2.2rem;
+      color: #f44336;
+      font-weight: bold;
+      text-shadow: 1px 1px 0 #fff;
+    }
+  
+    nav a {
+      text-decoration: none;
+      margin-left: 1.5rem;
+      color: #2196f3;
+      font-weight: 600;
+      transition: all 0.3s ease;
+      position: relative;
+    }
+  
+    nav a::after {
+      content: '';
+      position: absolute;
+      bottom: -4px;
+      left: 0;
+      width: 0;
+      height: 2px;
+      background: #2196f3;
+      transition: width 0.3s;
+    }
+  
+    nav a:hover::after {
+      width: 100%;
+    }
+  
+    .cart-icon {
+      position: relative;
+      cursor: pointer;
+      transition: transform 0.3s ease;
+      font-size: 1.5rem;
+      color: #f44336;
+    }
+  
+    .cart-icon:hover,
+    .cart-icon.animate {
+      transform: scale(1.2);
+    }
+  
+    .cart-count, #cartCount {
+      position: absolute;
+      top: -10px;
+      right: -10px;
+      background: #2196f3;
+      color: white;
+      font-size: 0.8rem;
+      border-radius: 50%;
+      padding: 2px 6px;
+    }
+  
+    .filtros {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: center;
+      padding: 1.5rem 1rem;
+      gap: 0.75rem;
+    }
+  
+    .filtros button {
+      background-color: #2196f3;
+      color: white;
+      border: none;
+      padding: 0.6rem 1.2rem;
+      border-radius: 8px;
+      font-weight: bold;
+      cursor: pointer;
+      transition: all 0.3s ease;
+    }
+  
+    .filtros button:hover {
+      background-color: #1976d2;
+      transform: translateY(-2px);
+    }
+  
+    .catalogo {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+      gap: 1.5rem;
+      padding: 2rem;
+      max-width: 1200px;
+      margin: auto;
+    }
+  
+    .producto {
+      background: white;
+      padding: 1rem;
+      border-radius: 12px;
+      box-shadow: 0 0 15px rgba(0, 0, 0, 0.1);
+      text-align: center;
+      transition: transform 0.3s ease, box-shadow 0.3s;
+      max-width: 220px;
+      width: 100%;
+      margin: 0 auto;
+    }
+  
+    .producto:hover {
+      transform: scale(1.03);
+      box-shadow: 0 0 20px rgba(255, 0, 0, 0.2);
+    }
+  
+    .producto img {
+      width: 100%;
+      height: 140px;
+      object-fit: cover;
+      border-radius: 10px;
+      margin-bottom: 0.5rem;
+      transition: transform 0.3s ease;
+    }
+  
+    .producto p {
+      margin: 0.3rem 0;
+    }
+  
+    button, .producto button {
+      background: #f44336;
+      color: white;
+      border: none;
+      padding: 0.5rem 1rem;
+      border-radius: 6px;
+      cursor: pointer;
+      font-weight: bold;
+      transition: background 0.3s ease;
+    }
+  
+    .producto button:hover {
+      background: #d32f2f;
+    }
+  
+    .toast {
+  position: fixed;
+  bottom: 20px;
+  right: 20px;
+  background-color: #4caf50;
+  color: white;
+  padding: 12px 20px;
+  border-radius: 8px;
+  box-shadow: 0 4px 8px rgba(0,0,0,0.3);
+  opacity: 0;
+  pointer-events: none;
+  transition: opacity 0.4s ease, transform 0.4s ease;
+  transform: translateY(20px);
+  z-index: 9999;
+  cursor: pointer;
+}
+.toast.show {
+  opacity: 1;
+  pointer-events: auto;
+  transform: translateY(0);
+} 
+    .checkout {
+      padding: 2rem;
+    }
+  
+    .checkout h3 {
+      color: #2196f3;
+      margin-bottom: 1rem;
+    }
+  
+    .checkout input {
+      padding: 0.5rem;
+      margin: 0.5rem 0;
+      width: 100%;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+    }
+  
+    .checkout button {
+      background-color: #4caf50;
+    }
+  
+    .buscador {
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      margin: 2rem 0;
+      gap: 1rem;
+    }
+  
+    .buscador input {
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      width: 300px;
+    }
+  
+    .iconos {
+      font-size: 1.5rem;
+      color: #2196f3;
+    }
+  
+    .modal-carrito {
+      display: none;
+      position: fixed;
+      top: 0;
+      left: 0;
+      width: 100%;
+      height: 100%;
+      background: rgba(0, 0, 0, 0.5);
+      z-index: 999;
+      justify-content: center;
+      align-items: center;
+    }
+  
+    .modal-content {
+      background: white;
+      padding: 2rem;
+      border-radius: 12px;
+      max-width: 500px;
+      width: 90%;
+      max-height: 80%;
+      overflow-y: auto;
+    }
+  
+    .cantidad-buttons {
+      display: flex;
+      justify-content: space-between;
+      width: 100px;
+    }
+  
+    .cantidad-buttons button {
+      background-color: #2196f3;
+      color: white;
+      border: none;
+      padding: 0.3rem;
+      border-radius: 6px;
+    }
+  
+    .sidebar-carrito {
+      position: fixed;
+      top: 0;
+      left: -300px;
+      width: 300px;
+      height: 100%;
+      background: #fff;
+      border-right: 2px solid #ccc;
+      padding: 1rem;
+      box-shadow: 2px 0 10px rgba(0, 0, 0, 0.1);
+      transition: left 0.3s ease-in-out;
+      z-index: 1000;
+    }
+  
+    #listaSidebar {
+      max-height: 60vh;
+      overflow-y: auto;
+    }
+  
+    .sidebar-carrito.abierto {
+      left: 0;
+    }
+  
+    .header-sidebar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 1rem;
+    }
+  
+    .sidebar-carrito ul {
+      list-style: none;
+      padding: 0;
+    }
+  
+    .sidebar-carrito li {
+      margin: 8px 0;
+      display: flex;
+      justify-content: space-between;
+    }
+  
+    .sidebar-carrito button {
+      margin-top: 1rem;
+      width: 100%;
+      padding: 0.5rem;
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">🍭 El Panalito</div>
+    
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="catalago.html" class="active">Catálogo</a>
+      <a href="sucursales.html">Sucursales</a>
+      <a href="contacto.html">Contáctanos</a>
+    </nav>
+    <div class="cart-icon" id="cartIcon" onclick="mostrarModalCarrito()">
+      <i class="fas fa-shopping-cart"></i>
+      <span id="cartCount">0</span>
+    </div>
+  </header>
+
+  <section class="filtros">
+    <button onclick="filtrar('Dulces')">Dulces</button>
+    <button onclick="filtrar('Botanas')">Botanas</button>
+    <button onclick="filtrar('Refrescos')">Refrescos</button>
+    <button onclick="filtrar('Salsas')">Salsas</button>
+    <button onclick="filtrar('Galletas')">Galletas</button>
+    <button onclick="filtrar('Cigarros')">Cigarros</button>
+    <button onclick="filtrar('Decoración')">Decoración</button>
+    <button onclick="filtrar('Desechables')">Desechables</button>
+    <button onclick="filtrar('Abarrotes')">Abarrotes</button>
+    <button onclick="filtrar('Despensa')">Despensa</button>
+    <button onclick="filtrar('Limpieza')">Limpieza</button>
+    <button onclick="filtrar('todos')">Todos</button>
+  </section>
+
+  <section class="catalogo" id="catalogo">
+    <!-- Aquí van los productos, puedes duplicar más bloques -->
+    <div class="producto" data-categoria="Dulces">
+      <img src="mazapan.jpg" alt="Mazapanes">
+      <p>Mazapanes</p>
+      <p>12 piezas 28 grs</p>
+      <button onclick="addToCart('Mazapanes 12 piezas 28 grs')">Agregar</button>
+    </div>
+    <div class="producto" data-categoria="Dulces">
+      <img src="lucas.jpg" alt="Lukas">
+      <p>Lukas Muecas</p>
+      <p>24g</p>
+      <button onclick="addToCart('Lukas Muecas 24g')">Agregar</button>
+    </div>
+    <div class="producto" data-categoria="Dulces">
+      <img src="pelonrico.jpg" alt="Pelón">
+      <p>Pelón Pelo Rico</p>
+      <p>Caja de 24 Paquetes</p>
+      <button onclick="addToCart('Pelón Pelo Rico Caja de 24 Paquetes')">Agregar</button>
+    </div>
+    <div class="producto" data-categoria="Dulces">
+      <img src="rellerindo.jpeg" alt="Rellerindo">
+      <p>Rellerindo</p>
+      <p>65 unidades</p>
+      <button onclick="addToCart('Rellerindo 65 unidades')">Agregar</button>
+    </div>
+    <div class="producto" data-categoria="Dulces">
+      <img src="pulparindo.png" alt="Pulparindo">
+      <p>Pulparindo</p>
+      <p>16 piezas de 28 grs</p>
+      <button onclick="addToCart('Pulparindo 16 piezas 28 grs')">Agregar</button>
+    </div>
+    <div class="producto" data-categoria="Dulces">
+      <img src="duvalin.jpeg" alt="Duvalin">
+      <p>Duvalin</p>
+      <p>18 piezas</p>
+      <button onclick="addToCart('Duvalin 18 piezas')">Agregar</button>
+    </div>
+    <div class="producto" data-categoria="Dulces">
+      <img src="tutsi.jpeg" alt="Tutsi">
+      <p>Tutsi Pop</p>
+      <p>24 piezas, dulce de caramelo</p>
+      <button onclick="addToCart('Tutsi Pop 24 piezas')">Agregar</button>
+    </div>
+    <div class="producto" data-categoria="Botanas">
+      <img src="gomitas.png" class="product-image" alt="Panditas">
+      <p>Panditas (gomitas)</p>
+      <p>1 Kg</p>
+      <button onclick="addToCart('Panditas 1 Kg')">Agregar</button>
+    </div>
+    <!-- Refrescos -->
+<div class="producto" data-categoria="Refrescos">
+  <img src="cocacola.png" alt="Coca Cola">
+  <p>Coca Cola</p>
+  <p>Botella 600 ml</p>
+  <button onclick="addToCart('Coca Cola 600 ml')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Refrescos">
+  <img src="fanta.png" alt="Fanta">
+  <p>Fanta Naranja</p>
+  <p>Botella 2L</p>
+  <button onclick="addToCart('Fanta Naranja 2L')">Agregar</button>
+</div>
+
+<!-- Botanas -->
+<div class="producto" data-categoria="Botanas">
+  <img src="sabritas.png" alt="Sabritas">
+  <p>Sabritas Clásicas</p>
+  <p>Bolsa 45g</p>
+  <button onclick="addToCart('Sabritas Clásicas 45g')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Botanas">
+  <img src="doritos.png" alt="Doritos">
+  <p>Doritos Nacho</p>
+  <p>Bolsa 55g</p>
+  <button onclick="addToCart('Doritos Nacho 55g')">Agregar</button>
+</div>
+
+<!-- Salsas -->
+<div class="producto" data-categoria="Salsas">
+  <img src="valentina.jpeg" alt="Valentina">
+  <p>Salsa Valentina</p>
+  <p>Botella 370 ml</p>
+  <button onclick="addToCart('Salsa Valentina 370 ml')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Salsas">
+  <img src="bufalo.jpeg" alt="Búfalo">
+  <p>Salsa Búfalo Picante</p>
+  <p>Botella 150 ml</p>
+  <button onclick="addToCart('Salsa Búfalo Picante 150 ml')">Agregar</button>
+</div>
+
+<!-- Galletas -->
+<div class="producto" data-categoria="Galletas">
+  <img src="emperador.jpeg" alt="Emperador">
+  <p>Galletas Emperador</p>
+  <p>Paquete 6 piezas</p>
+  <button onclick="addToCart('Galletas Emperador 6 piezas')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Galletas">
+  <img src="gansito.jpeg" alt="Gansito">
+  <p>Gansito Marinela</p>
+  <p>Pastelito individual</p>
+  <button onclick="addToCart('Gansito Marinela')">Agregar</button>
+</div>
+
+<!-- Cigarros -->
+<div class="producto" data-categoria="Cigarros">
+  <img src="malboro.jpeg" alt="Marlboro">
+  <p>Marlboro Rojo</p>
+  <p>Cajetilla con 20 unidades</p>
+  <button onclick="addToCart('Marlboro Rojo 20 unidades')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Cigarros">
+  <img src="pallmall.jpeg" alt="Pall Mall">
+  <p>Pall Mall Azul</p>
+  <p>Cajetilla con 20 unidades</p>
+  <button onclick="addToCart('Pall Mall Azul 20 unidades')">Agregar</button>
+</div>
+
+<!-- Desechables -->
+<div class="producto" data-categoria="Desechables">
+  <img src="vasos.jpeg" alt="Vasos">
+  <p>Vasos de Plástico</p>
+  <p>Paquete con 50 piezas</p>
+  <button onclick="addToCart('Vasos de Plástico 50 piezas')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Desechables">
+  <img src="platos.jpeg" alt="Platos">
+  <p>Platos Desechables</p>
+  <p>Paquete con 25 piezas</p>
+  <button onclick="addToCart('Platos Desechables 25 piezas')">Agregar</button>
+</div>
+
+<!-- Decoración -->
+<div class="producto" data-categoria="Decoración">
+  <img src="globos.jpeg" alt="Globos">
+  <p>Globos de Colores</p>
+  <p>Bolsa con 100 unidades</p>
+  <button onclick="addToCart('Globos de Colores 100 unidades')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Decoración">
+  <img src="guirnalda.jpeg" alt="Guirnalda">
+  <p>Guirnalda de papel</p>
+  <p>1.5 metros</p>
+  <button onclick="addToCart('Guirnalda de papel 1.5 m')">Agregar</button>
+</div>
+
+<!-- Abarrotes -->
+<div class="producto" data-categoria="Abarrotes">
+  <img src="azucar.jpeg" alt="Azúcar">
+  <p>Azúcar Refinada</p>
+  <p>1 Kg</p>
+  <button onclick="addToCart('Azúcar Refinada 1 Kg')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Abarrotes">
+  <img src="sal.jpeg" alt="Sal">
+  <p>Sal de Mesa</p>
+  <p>1 Kg</p>
+  <button onclick="addToCart('Sal de Mesa 1 Kg')">Agregar</button>
+</div>
+
+<!-- Limpieza -->
+<div class="producto" data-categoria="Limpieza">
+  <img src="cloro.jpeg" alt="Cloro">
+  <p>Cloro Multiusos</p>
+  <p>Botella 1L</p>
+  <button onclick="addToCart('Cloro Multiusos 1L')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Limpieza">
+  <img src="fabuloso.jpeg" alt="Fabuloso">
+  <p>Fabuloso Lavanda</p>
+  <p>Botella 850 ml</p>
+  <button onclick="addToCart('Fabuloso Lavanda 850 ml')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Dulces">
+  <img src="rockaleta.jpeg" alt="Rockaleta">
+  <p>Rockaleta Bola</p>
+  <p>Paquete con 40 piezas</p>
+  <button onclick="addToCart('Rockaleta Bola 40 piezas')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Dulces">
+  <img src="picafresa.jpeg" alt="Picafresa">
+  <p>Picafresa</p>
+  <p>Bolsa con 50 piezas</p>
+  <button onclick="addToCart('Picafresa 50 piezas')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Dulces">
+  <img src="besodenega.jpeg" alt="Beso de Negra">
+  <p>Beso de Negra</p>
+  <p>Chocolate relleno 20g</p>
+  <button onclick="addToCart('Beso de Negra 20g')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Dulces">
+  <img src="payaso.jpeg" alt="Mini Paleta Payaso">
+  <p>Mini Paleta Payaso</p>
+  <p>12 piezas</p>
+  <button onclick="addToCart('Mini Paleta Payaso 12 piezas')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Dulces">
+  <img src="crayon.jpeg" alt="Crayonazo">
+  <p>Crayonazo</p>
+  <p>Caja con 12 piezas</p>
+  <button onclick="addToCart('Crayonazo 12 piezas')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Botanas">
+  <img src="chetos.jpeg" alt="Cheetos">
+  <p>Cheetos Torciditos</p>
+  <p>Bolsa 40g</p>
+  <button onclick="addToCart('Cheetos Torciditos 40g')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Botanas">
+  <img src="rancheritos.jpeg" alt="Rancheritos">
+  <p>Rancheritos</p>
+  <p>Bolsa 40g</p>
+  <button onclick="addToCart('Rancheritos 40g')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Botanas">
+  <img src="sabritones.jpeg" alt="Sabritones">
+  <p>Sabritones</p>
+  <p>Bolsa 50g</p>
+  <button onclick="addToCart('Sabritones 50g')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Botanas">
+  <img src="chips.jpeg" alt="Chips Jalapeño">
+  <p>Chips Jalapeño</p>
+  <p>Bolsa 50g</p>
+  <button onclick="addToCart('Chips Jalapeño 50g')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Botanas">
+  <img src="japoneses.jpeg" alt="Cacahuates Japoneses">
+  <p>Cacahuates Japoneses</p>
+  <p>Bolsa 80g</p>
+  <button onclick="addToCart('Cacahuates Japoneses 80g')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Refrescos">
+  <img src="sprite.jpeg" alt="Sprite">
+  <p>Sprite</p>
+  <p>Botella 600ml</p>
+  <button onclick="addToCart('Sprite 600ml')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Refrescos">
+  <img src="pepsi.jpeg" alt="Pepsi">
+  <p>Pepsi</p>
+  <p>Botella 3L</p>
+  <button onclick="addToCart('Pepsi 3L')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Refrescos">
+  <img src="manzanita.jpeg" alt="Manzanita">
+  <p>Manzanita Sol</p>
+  <p>Botella 355ml</p>
+  <button onclick="addToCart('Manzanita Sol 355ml')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Refrescos">
+  <img src="seven.jpeg" alt="7Up">
+  <p>7Up</p>
+  <p>Lata 355ml</p>
+  <button onclick="addToCart('7Up Lata 355ml')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Refrescos">
+  <img src="sidral.jpeg" alt="Sidral Mundet">
+  <p>Sidral Mundet</p>
+  <p>Botella 600ml</p>
+  <button onclick="addToCart('Sidral Mundet 600ml')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Salsas">
+  <img src="mexicana.jpeg" alt="Salsa Mexicana">
+  <p>Salsa Mexicana</p>
+  <p>Botella 350ml</p>
+  <button onclick="addToCart('Salsa Mexicana 350ml')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Salsas">
+  <img src="tabasco.jpeg" alt="Salsa Tabasco">
+  <p>Salsa Tabasco</p>
+  <p>60 ml</p>
+  <button onclick="addToCart('Salsa Tabasco 60 ml')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Salsas">
+  <img src="costeña.jpeg" alt="La Costeña">
+  <p>Salsa La Costeña</p>
+  <p>Botella 250ml</p>
+  <button onclick="addToCart('Salsa La Costeña 250ml')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Salsas">
+  <img src="chamoy.jpeg" alt="Chamoy">
+  <p>Chamoy</p>
+  <p>Botella 350ml</p>
+  <button onclick="addToCart('Chamoy 350ml')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Salsas">
+  <img src="picante.jpeg" alt="Búfalo Extra">
+  <p>Salsa Búfalo Extra Picante</p>
+  <p>Botella 150ml</p>
+  <button onclick="addToCart('Salsa Búfalo Extra Picante 150ml')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Galletas">
+  <img src="senzo.jpeg" alt="Emperador">
+  <p>Galletas Emperador Senzo</p>
+  <p>Chocolate 100g</p>
+  <button onclick="addToCart('Galletas Emperador 100g')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Galletas">
+  <img src="marias.jpeg" alt="Marías Gamesa">
+  <p>Galletas Marías</p>
+  <p>Paquete 170g</p>
+  <button onclick="addToCart('Galletas Marías 170g')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Galletas">
+  <img src="oreos.jpeg" alt="Oreo">
+  <p>Galletas Oreo</p>
+  <p>Paquete chico 38g</p>
+  <button onclick="addToCart('Galletas Oreo 38g')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Galletas">
+  <img src="animalitos.jpeg" alt="Animalitos">
+  <p>Galletas Animalitos</p>
+  <p>Bolsa 150g</p>
+  <button onclick="addToCart('Galletas Animalitos 150g')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Galletas">
+  <img src="principe.jpeg" alt="Príncipe">
+  <p>Galletas Príncipe</p>
+  <p>Rellenas 90g</p>
+  <button onclick="addToCart('Galletas Príncipe 90g')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Cigarros">
+  <img src="touch.jpeg" alt="Marlboro Touch">
+  <p>Marlboro Touch</p>
+  <p>20 cigarrillos</p>
+  <button onclick="addToCart('Marlboro Touch 20 cigarrillos')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Cigarros">
+  <img src="camel.jpeg" alt="Camel Blue">
+  <p>Camel Blue</p>
+  <p>Cajetilla 20 cigarrillos</p>
+  <button onclick="addToCart('Camel Blue 20 cigarrillos')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Cigarros">
+  <img src="lucky.jpeg" alt="Lucky Strike">
+  <p>Lucky Strike</p>
+  <p>Original Red 20 piezas</p>
+  <button onclick="addToCart('Lucky Strike Red 20 piezas')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Cigarros">
+  <img src="kent.jpeg" alt="Kent">
+  <p>Kent HDi</p>
+  <p>Cajetilla 20 cigarrillos</p>
+  <button onclick="addToCart('Kent HDi 20 cigarrillos')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Decoración">
+  <img src="confeti.jpeg" alt="Confeti">
+  <p>Confeti</p>
+  <p>Bolsa mediana</p>
+  <button onclick="addToCart('Confeti Bolsa Mediana')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Decoración">
+  <img src="centrodemesa.jpeg" alt="Centro de mesa">
+  <p>Centro de mesa</p>
+  <p>Diseño infantil</p>
+  <button onclick="addToCart('Centro de mesa infantil')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Decoración">
+  <img src="velas.jpeg" alt="Velas de cumpleaños">
+  <p>Velas de cumpleaños</p>
+  <p>Set de 12</p>
+  <button onclick="addToCart('Velas de cumpleaños x12')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Desechables">
+  <img src="cubiertos.jpeg" alt="Cubiertos plásticos">
+  <p>Cubiertos Plásticos</p>
+  <p>Set de 24</p>
+  <button onclick="addToCart('Cubiertos Plásticos x24')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Desechables">
+  <img src="servilletas.jpeg" alt="Servilletas">
+  <p>Servilletas</p>
+  <p>Paquete de 100</p>
+  <button onclick="addToCart('Servilletas x100')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Desechables">
+  <img src="mantel_plastico.jpeg" alt="Mantel plástico">
+  <p>Mantel Plástico</p>
+  <p>Color surtido</p>
+  <button onclick="addToCart('Mantel plástico color surtido')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Abarrotes">
+  <img src="arroz.jpeg" alt="Arroz Verde Valle">
+  <p>Arroz Verde Valle</p>
+  <p>1 kg</p>
+  <button onclick="addToCart('Arroz Verde Valle 1kg')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Abarrotes">
+  <img src="frijol.jpeg" alt="Frijol Negro">
+  <p>Frijol Negro</p>
+  <p>1 kg</p>
+  <button onclick="addToCart('Frijol Negro 1kg')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Abarrotes">
+  <img src="aceite.jpeg" alt="Aceite Nutrioli">
+  <p>Aceite Nutrioli</p>
+  <p>900 ml</p>
+  <button onclick="addToCart('Aceite Nutrioli 900ml')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Abarrotes">
+  <img src="mayonsa.jpeg" alt="Mayonesa">
+  <p>Mayonesa McCormick</p>
+  <p>Frasco de 390g</p>
+  <button onclick="addToCart('Mayonesa McCormick 390g')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Abarrotes">
+  <img src="pasta.jpeg" alt="Pasta para sopa">
+  <p>Pasta para Sopa</p>
+  <p>200g, tipo codito</p>
+  <button onclick="addToCart('Pasta para Sopa Codito 200g')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Despensa">
+  <img src="leche.jpeg" alt="Leche Lala">
+  <p>Leche Lala Entera</p>
+  <p>1 L</p>
+  <button onclick="addToCart('Leche Lala Entera 1L')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Despensa">
+  <img src="huevo.jpeg" alt="Huevo blanco">
+  <p>Huevo Blanco</p>
+  <p>Paquete con 12</p>
+  <button onclick="addToCart('Huevo Blanco x12')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Despensa">
+  <img src="zucaritas.jpeg" alt="Cereal Zucaritas">
+  <p>Zucaritas</p>
+  <p>Caja 300g</p>
+  <button onclick="addToCart('Zucaritas 300g')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Despensa">
+  <img src="papelhigienico.jpeg" alt="Papel Higiénico">
+  <p>Papel Higiénico</p>
+  <p>4 rollos</p>
+  <button onclick="addToCart('Papel Higiénico 4 rollos')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Despensa">
+  <img src="panbimbo.jpeg" alt="Pan Bimbo">
+  <p>Pan Bimbo Blanco</p>
+  <p>Pan grande</p>
+  <button onclick="addToCart('Pan Bimbo Blanco grande')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Limpieza">
+  <img src="escoba.jpeg" alt="Escoba">
+  <p>Escoba</p>
+  <p>Plástica con mango</p>
+  <button onclick="addToCart('Escoba con mango')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Limpieza">
+  <img src="trapeador.jpeg" alt="Trapeador">
+  <p>Trapeador</p>
+  <p>Algodón absorbente</p>
+  <button onclick="addToCart('Trapeador de algodón')">Agregar</button>
+</div>
+<div class="producto" data-categoria="Limpieza">
+  <img src="liquido.jpeg" alt="Jabón Zote">
+  <p>Jabón Liquido</p>
+  <p> 400g</p>
+  <button onclick="addToCart('Jabón Liquido 400g')">Agregar</button>
+</div>
+
+  </section>
+
+
+  <div class="buscador">
+    <input type="text" id="busqueda" placeholder="BUSCAR" onkeyup="buscarProducto()">
+    <span class="iconos"><i class="fas fa-search"></i></span>
+
+  </div>
+
+  <div class="toast" id="toast">Producto agregado</div>
+  <!-- Modal del carrito -->
+  <!-- Sidebar del carrito -->
+<div id="sidebarCarrito" class="sidebar-carrito">
+  <div class="header-sidebar">
+    <h3>Tu carrito</h3>
+    <button onclick="cerrarSidebar()">X</button>
+  </div>
+  <ul id="listaSidebar"></ul>
+  <button onclick="enviarPedidoWhatsApp()">Enviar pedido</button>
+</div>
+
+
+
+  <script>
+    let carrito = JSON.parse(localStorage.getItem('carrito')) || [];
+actualizarCarrito(); // para que se actualice el contador al cargar
+
+  
+function addToCart(nombre) {
+  const index = carrito.findIndex(p => p.nombre === nombre);
+  if (index >= 0) {
+    carrito[index].cantidad++;
+  } else {
+    carrito.push({ nombre, cantidad: 1 });
+  }
+
+  animarIconoCarrito();
+  actualizarCarrito();
+  localStorage.setItem('carrito', JSON.stringify(carrito));
+
+  // Mostrar mensaje tipo toast
+  mostrarToast(`Agregaste un ${nombre} a tu carrito. Presiona para ver.`);
+}
+
+  
+    function animarIconoCarrito() {
+      const icono = document.getElementById('cartIcon');
+      icono.classList.add('animate');
+      setTimeout(() => icono.classList.remove('animate'), 300);
+    }
+  
+    function actualizarCarrito() {
+      const total = carrito.reduce((acc, p) => acc + p.cantidad, 0);
+      document.getElementById('cartCount').innerText = total;
+    }
+  
+    function filtrar(categoria) {
+      const productos = document.querySelectorAll('.producto');
+      productos.forEach(prod => {
+        if (categoria === 'todos' || prod.dataset.categoria === categoria) {
+          prod.style.display = 'block';
+        } else {
+          prod.style.display = 'none';
+        }
+      });
+    }
+    function buscarProducto() {
+  const input = document.getElementById('busqueda').value.toLowerCase();
+  const productos = document.querySelectorAll('.producto');
+
+  productos.forEach(producto => {
+    const texto = producto.textContent.toLowerCase();
+    if (texto.includes(input)) {
+      producto.style.display = 'block';
+    } else {
+      producto.style.display = 'none';
+    }
+  });
+}
+
+  
+    function mostrarModalCarrito() {
+  const sidebar = document.getElementById('sidebarCarrito');
+  const lista = document.getElementById('listaSidebar');
+  lista.innerHTML = '';
+
+  if (carrito.length === 0) {
+    lista.innerHTML = '<li>No has agregado productos aún.</li>';
+  } else {
+    carrito.forEach((item, index) => {
+      const li = document.createElement('li');
+      li.innerHTML = `
+        ${item.cantidad}x ${item.nombre}
+        <div>
+          <button onclick="cambiarCantidad(${index}, -1)">–</button>
+          <button onclick="cambiarCantidad(${index}, 1)">+</button>
+        </div>
+      `;
+      lista.appendChild(li);
+    });
+  }
+
+  sidebar.classList.add('abierto');
+}
+
+function cambiarCantidad(index, cambio) {
+  carrito[index].cantidad += cambio;
+
+  if (carrito[index].cantidad <= 0) {
+    carrito.splice(index, 1); // Elimina el producto si su cantidad es 0 o menos
+  }
+
+  guardarYActualizar();
+}
+
+function guardarYActualizar() {
+  localStorage.setItem('carrito', JSON.stringify(carrito));
+  actualizarCarrito();
+  mostrarModalCarrito(); // recarga el modal
+}
+
+function cerrarSidebar() {
+  document.getElementById('sidebarCarrito').classList.remove('abierto');
+}
+
+function enviarPedidoWhatsApp() {
+  const nombre = prompt("¿Cuál es tu nombre?");
+  const telefono = prompt("¿Tu número de teléfono?");
+  const notas = prompt("¿Alguna nota o mensaje para tu pedido? (opcional)");
+  
+  if (!nombre || !telefono) {
+    return alert("Por favor completa al menos tu nombre y teléfono.");
+  }
+
+  if (carrito.length === 0) {
+    alert("Tu carrito está vacío.");
+    return;
+  }
+
+  let mensaje = `Hola! Soy ${nombre}.\nMi número de contacto es ${telefono}.\n\nQuisiera hacer el siguiente pedido:\n\n`;
+
+  carrito.forEach(p => {
+    mensaje += `• ${p.cantidad}x ${p.nombre}\n`;
+  });
+
+  if (notas) {
+    mensaje += `\nNotas adicionales: ${notas}\n`;
+  }
+
+  mensaje += `\n¡Gracias!`;
+
+  const url = `https://wa.me/8122589222?text=${encodeURIComponent(mensaje)}`;
+  window.open(url, '_blank');
+}
+function mostrarToast(mensaje) {
+  const toast = document.getElementById("toast");
+  toast.textContent = mensaje;
+  toast.classList.add("show");
+
+  // Ocultar después de 3 segundos
+  setTimeout(() => {
+    toast.classList.remove("show");
+  }, 3000);
+
+  // Al hacer clic, abrir el modal del carrito
+  toast.onclick = () => {
+    mostrarModalCarrito(); // Tu función existente
+    toast.classList.remove("show");
+  };
+}
+  </script>
+  
+  <div id="addToCart" class="addToCart">Producto agregado</div>
+  
+</body>
+</html>

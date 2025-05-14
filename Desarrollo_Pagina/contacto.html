@@ -1,0 +1,263 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo | El Panalito</title>
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+  <body>
+    <header>
+      <div class="logo">🍭 El Panalito</div>
+      </div>
+      <nav>
+        <a href="index.html">Inicio</a>
+        <a href="catalago.html" class="active">Catálogo</a>
+        <a href="sucursales.html">Sucursales</a>
+        <a href="contacto.html">Contáctanos</a>
+      </nav>
+    </header>
+    <section id="contacto" style="background-color: #fffde7; padding: 40px 0;">
+        <div class="container" style="display: flex; flex-wrap: wrap; justify-content: center; gap: 40px;">
+          
+          <!-- Columna izquierda: Iconos + Teléfonos -->
+          <div class="col-left" style="flex: 1; min-width: 250px; text-align: center;">
+            <div style="margin-bottom: 30px;">
+              <i class="fa fa-phone" style="font-size: 40px; color: #f44336;"></i>
+              <p style="font-size: 1.2rem; color: #2196f3;">Teléfono San Nicolás: 123-456-789</p>
+            </div>
+            <div style="margin-bottom: 30px;">
+              <i class="fa fa-phone" style="font-size: 40px; color: #f44336;"></i>
+              <p style="font-size: 1.2rem; color: #2196f3;">Teléfono Apodaca: 987-654-321</p>
+            </div>
+            <div style="margin-bottom: 30px;">
+                <!-- Botón Chat en Vivo -->
+                <a href="https://wa.me/8122589222" target="_blank" style="display: inline-block; background-color: #2196f3; color: white; padding: 15px 30px; border-radius: 50%; font-size: 2rem; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.2); transition: background-color 0.3s;">
+                  <i class="fa fa-comment"></i> <!-- Ícono de chat -->
+                </a>
+              </div>
+          </div>
+      
+          <!-- Columna derecha: Formulario -->
+          <div class="col-right" style="flex: 1; min-width: 250px; background-color: white; border-radius: 8px; padding: 20px; box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);">
+            <form id="contact-form" style="display: flex; flex-direction: column;">
+              <div style="margin-bottom: 15px;">
+                <label for="nombre" style="font-size: 16px; color: #f44336;">Nombre:</label>
+                <input type="text" id="nombre" name="nombre" placeholder="Escribe tu nombre..." style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; background-color: #fff;" required>
+              </div>
+              <div style="margin-bottom: 15px;">
+                <label for="telefono" style="font-size: 16px; color: #f44336;">Teléfono:</label>
+                <input type="tel" id="telefono" name="telefono" placeholder="Tu teléfono..." style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; background-color: #fff;" required>
+              </div>
+              <div style="margin-bottom: 15px;">
+                <label for="mensaje" style="font-size: 16px; color: #f44336;">Mensaje:</label>
+                <textarea id="mensaje" name="mensaje" placeholder="Escribe tu mensaje..." style="width: 100%; padding: 12px; border: 1px solid #ccc; border-radius: 5px; height: 100px; background-color: #fff;" required></textarea>
+              </div>
+              <div style="text-align: center;">
+                <button type="button" onclick="sendWhatsAppMessage()" style="background-color: #2196f3; color: white; padding: 12px 20px; border: none; border-radius: 5px; cursor: pointer; font-weight: bold;">Enviar</button>
+              </div>
+            </form>
+          </div>
+      
+        </div>
+      </section>
+      
+      <script>
+        function sendWhatsAppMessage() {
+          const nombre = document.getElementById('nombre').value;
+          const telefono = document.getElementById('telefono').value;
+          const mensaje = document.getElementById('mensaje').value;
+          
+          const text = `*Nuevo mensaje desde la página*\n\n*Nombre:* ${nombre}\n*Teléfono:* ${telefono}\n*Mensaje:* ${mensaje}`;
+          const url = `https://wa.me/8122589222?text=${encodeURIComponent(text)}`;
+          
+          window.open(url, '_blank');
+        }
+      </script>
+      
+<style>
+    /* Estilos generales de la página */
+* {
+  margin: 0;
+  padding: 0;
+  box-sizing: border-box;
+}
+
+body {
+  font-family: 'Open Sans', sans-serif;
+  background: linear-gradient(to right, #fffde7, #fff9c4);
+  overflow-x: hidden;
+}
+
+/* Estilos de la cabecera */
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  padding: 1rem 2rem;
+  background-color: #ffeb3b; /* amarillo catálogo */
+  border-bottom: 3px solid #000;
+}
+
+header h1,
+.logo {
+  font-size: 2rem;
+  color: #f44336; /* rojo catálogo */
+  font-weight: bold;
+}
+
+/* Enlaces de navegación */
+nav a {
+  text-decoration: none;
+  margin-left: 1rem;
+  color: #2196f3; /* azul catálogo */
+  font-weight: bold;
+  transition: color 0.3s;
+}
+
+nav a:hover {
+  color: #1565c0; /* azul oscuro catálogo */
+}
+
+/* Estilos para la sección principal */
+main {
+  text-align: center;
+  padding: 100px 20px 120px;
+  background: 
+    linear-gradient(rgba(255, 255, 255, 0.8), rgba(255, 255, 255, 0.8)), 
+    url('https://th.bing.com/th/id/OIP.Od6dtJNxtTXCYYWJ1IA0wgHaHa?rs=1&pid=ImgDetMain'); /* imagen real */
+  background-size: cover;
+  background-position: center;
+  background-repeat: no-repeat;
+}
+
+main h1 {
+  font-size: 4rem;
+  color: #f44336; /* rojo catálogo */
+  font-weight: 700;
+  margin-bottom: 20px;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+main h2 {
+  font-size: 2rem;
+  color: #2196f3; /* azul catálogo */
+  margin-bottom: 30px;
+  font-weight: 600;
+  text-shadow: 2px 2px 6px rgba(0, 0, 0, 0.3);
+}
+
+/* Estilos para el botón del catálogo */
+.btn-catalogo {
+  background-color: #2196f3; /* azul catálogo */
+  color: #fff;
+  padding: 16px 48px;
+  border: none;
+  border-radius: 50px;
+  font-size: 1.1rem;
+  font-weight: bold;
+  cursor: pointer;
+  box-shadow: 0 6px 20px rgba(33, 150, 243, 0.3);
+  transition: all 0.3s ease;
+}
+
+.btn-catalogo:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(21, 101, 192, 0.4);
+}
+
+/* Estilos de pie de página */
+footer {
+  background-color: #fff;
+  text-align: center;
+  padding: 30px;
+  font-size: 0.9rem;
+  color: #888;
+  border-top: 1px solid #eee;
+}
+
+/* Estilos para los campos del formulario */
+input, textarea {
+  font-family: 'Roboto', sans-serif;
+  font-size: 1rem;
+  padding: 12px;
+  border: 2px solid #ccc; /* Borde suave */
+  border-radius: 8px;
+  background-color: #fff;
+  box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+  transition: all 0.3s ease;
+  width: 100%;
+  margin-bottom: 20px;
+}
+
+/* Estilo para el placeholder */
+input::placeholder, textarea::placeholder {
+  color: #888; /* Gris suave */
+  font-style: italic;
+}
+
+/* Al enfocarse en el campo (cuando el usuario hace clic en él) */
+input:focus, textarea:focus {
+  border-color: #2196f3; /* Azul catálogo */
+  box-shadow: 0 0 10px rgba(33, 150, 243, 0.3); /* Sombra más intensa */
+}
+
+/* Efecto cuando el usuario empieza a escribir */
+input:not(:placeholder-shown), textarea:not(:placeholder-shown) {
+  background-color: #f1f8ff; /* Fondo suave cuando el usuario empieza a escribir */
+}
+
+/* Animación de cambio de fondo cuando el campo está vacío o lleno */
+input:focus::placeholder, textarea:focus::placeholder {
+  color: transparent; /* El texto del placeholder desaparece cuando se enfoca */
+}
+
+/* Estilos del botón de envío */
+button {
+  font-family: 'Fredoka', sans-serif;
+  background: linear-gradient(135deg, #ff4081, #f44336); /* rosa-rojo llamativo */
+  color: white;
+  padding: 14px 24px;
+  border: none;
+  border-radius: 40px;
+  font-size: 1rem;
+  cursor: pointer;
+  transition: transform 0.3s ease, box-shadow 0.3s ease;
+  box-shadow: 0 6px 15px rgba(255, 64, 129, 0.4);
+}
+
+button:hover {
+  transform: translateY(-3px);
+  box-shadow: 0 10px 25px rgba(244, 67, 54, 0.5);
+}
+
+
+/* Estilos responsivos */
+@media (max-width: 768px) {
+  header {
+    flex-direction: column;
+    gap: 10px;
+    padding: 20px;
+  }
+
+  nav a {
+    margin: 10px;
+  }
+
+  main h1 {
+    font-size: 3rem;
+    
+  }
+
+  main h2 {
+    font-size: 1.5rem;
+  }
+
+  .btn-catalogo {
+    padding: 12px 36px;
+    font-size: 1rem;
+  }
+}
+
+</style>      
+      

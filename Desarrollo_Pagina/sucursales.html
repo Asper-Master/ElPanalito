@@ -1,0 +1,165 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Catálogo | El Panalito</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fredoka:wght@400;600;700&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.4.0/css/all.min.css">
+  <style>
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
+
+    body {
+      font-family: 'Fredoka', sans-serif;
+      background: linear-gradient(to right, #fffde7, #fff9c4);
+      background-image: url('https://www.transparenttextures.com/patterns/hexellence.png');
+      background-repeat: repeat;
+      overflow-x: hidden;
+    }
+
+    header {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      padding: 1rem 2rem;
+      background-color: #ffeb3b;
+      border-bottom: 3px solid #000;
+    }
+
+    .logo {
+      font-size: 2rem;
+      color: #f44336;
+      font-weight: bold;
+    }
+
+    nav a {
+      text-decoration: none;
+      margin-left: 1rem;
+      color: #2196f3;
+      font-weight: bold;
+      transition: color 0.3s;
+    }
+
+    nav a:hover {
+      color: #1565c0;
+    }
+
+    .sucursales {
+      padding: 2rem;
+      text-align: center;
+    }
+
+    .titulo {
+      font-size: 2.8rem;
+      font-weight: bold;
+      margin-bottom: 2rem;
+      color: #f44336;
+    }
+
+    .grid-sucursales {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+      gap: 2rem;
+      padding: 1rem;
+    }
+
+    .card-sucursal {
+      background: #ffffff;
+      padding: 1.5rem;
+      border-radius: 1rem;
+      box-shadow: 0 0 12px rgba(0, 0, 0, 0.1);
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+      max-width: 320px;
+      margin: 0 auto;
+    }
+
+    .card-sucursal:hover {
+      transform: translateY(-8px);
+      box-shadow: 0 8px 20px rgba(0, 0, 0, 0.2);
+    }
+
+    .card-sucursal h3 {
+      font-size: 2rem;
+      margin-bottom: 1rem;
+      color: #2196f3;
+    }
+
+    .card-sucursal p {
+      font-size: 1.1rem;
+      margin-bottom: 0.7rem;
+      color: #333;
+    }
+
+    .btn-mapa {
+      display: inline-block;
+      margin-top: 1rem;
+      padding: 0.6rem 1.4rem;
+      background-color: #f44336;
+      color: #fff;
+      border-radius: 2rem;
+      text-decoration: none;
+      font-weight: bold;
+      font-size: 1rem;
+      transition: background-color 0.3s ease, transform 0.3s ease;
+    }
+
+    .btn-mapa:hover {
+      background-color: #d32f2f;
+      transform: scale(1.05);
+    }
+
+    @media (max-width: 600px) {
+      .titulo {
+        font-size: 2.2rem;
+      }
+
+      .card-sucursal h3 {
+        font-size: 1.6rem;
+      }
+
+      .card-sucursal p {
+        font-size: 1rem;
+      }
+    }
+  </style>
+</head>
+<body>
+  <header>
+    <div class="logo">🍭 El Panalito</div>
+    <nav>
+      <a href="index.html">Inicio</a>
+      <a href="catalago.html" class="active">Catálogo</a>
+      <a href="sucursales.html">Sucursales</a>
+      <a href="contacto.html">Contáctanos</a>
+    </nav>
+  </header>
+
+  <section class="sucursales">
+    <h2 class="titulo">Nuestras Sucursales</h2>
+    <div class="grid-sucursales">
+
+      <div class="card-sucursal">
+        <h3>San Nicolás</h3>
+        <p>📍 <strong>Dirección:</strong> Av. Diego Díaz de Berlanga 1812, Aquiles Serdán, 66440 San Nicolás de los Garza, N.L.</p>
+        <p>🕒 <strong>Horario:</strong> Abierto de 9:00 a.m.</p>
+        <a href="https://www.google.com/maps/place/Av.+Diego+D%C3%ADaz+de+Berlanga+1812,+San+Nicol%C3%A1s+de+los+Garza,+N.L." target="_blank" class="btn-mapa">Ver en Google Maps</a>
+      </div>
+
+      <div class="card-sucursal">
+        <h3>Apodaca</h3>
+        <p>📍 <strong>Dirección:</strong> Arturo Martinez C. 126, Rinconada Colonial de Apodaca, 66606 Cdad. Apodaca, N.L.</p>
+        <p>🕒 <strong>Horario:</strong> Abierto de 10:00 a.m.</p>
+        <a href="https://www.google.com/maps/place/Arturo+Mart%C3%ADnez+C.+126,+Cd.+Apodaca,+N.L." target="_blank" class="btn-mapa">Ver en Google Maps</a>
+      </div>
+
+    </div>
+  </section>
+</body>
+</html>
+
